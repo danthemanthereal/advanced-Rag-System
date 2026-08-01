@@ -25,7 +25,7 @@ for _, row in tqdm(sample.iterrows(), total=len(sample), desc="Evaluating"):
     query_id = str(row["_id"])
     query_text = row["text"]
     relevant = qrels[query_id]
-    
+
 
 
 

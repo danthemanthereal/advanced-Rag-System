@@ -1,1 +1,3 @@
-datasets~=5.0.1
+bm25s==0.3.10
+datasets==5.0.1
+
