@@ -80,7 +80,6 @@ class DenseRetriever:
 
         for doc_id, distance in zip(ids, distances):
             cosine_similarity = 1 - distance
-
             top_k_results.append(
                 {
                     "id": doc_id,

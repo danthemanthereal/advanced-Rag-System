@@ -4,6 +4,7 @@ from pathlib import Path
 from tqdm import tqdm
 
 from reciprocal_rank_fusion.rrf import ReciprocalRankFusion
+from reranker_component.reranker import Reranker
 from retrieval.bm25_retriever import BM25Retriever
 from retrieval.dense_retriever import DenseRetriever
 from retrieval.hybrid_retriever import HybridRetriever
@@ -40,6 +41,21 @@ rrf = ReciprocalRankFusion(60)
 hybrid_retriever = HybridRetriever(bm25_retriever=bm25_retriever,
                                    dense_retriever=dense_retriever,
                                    rrf=rrf)
+
+hybrid_rev = hybrid_retriever.get_top_k_hybrid_retrieval("Wie geht es dir", 10)
+ids = [str(id) for id, _ in hybrid_rev]
+
+
+
+reranker = Reranker(
+    data_loader=data_loader,
+    model_name="cross-encoder/mmarco-mMiniLMv2-L12-H384-v1"
+)
+
+res = reranker.rerank("wieg geht es dir", ids, 5)
+
+for r in res:
+    print(r)
 
 
 
