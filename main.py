@@ -41,7 +41,6 @@ hybrid_retriever = HybridRetriever(bm25_retriever=bm25_retriever,
                                    dense_retriever=dense_retriever,
                                    rrf=rrf)
 
-print(hybrid_retriever.get_top_k_hybrid_retrieval("wie geht es dir",10))
 
 
 
