@@ -4,13 +4,14 @@ from pathlib import Path
 from tqdm import tqdm
 import numpy as np
 from evaluator_component.evaluator import Evaluator
+from query_improvement_component.query_improvement import QueryImprovementComponent
 from reciprocal_rank_fusion.rrf import ReciprocalRankFusion
 from reranker_component.reranker import Reranker
 from retrieval.bm25_retriever import BM25Retriever
 from retrieval.dense_retriever import DenseRetriever
 from retrieval.hybrid_retriever import HybridRetriever
 
-DATA_DIR = Path(__file__).resolve().parents[0] / "data"
+"""DATA_DIR = Path(__file__).resolve().parents[0] / "data"
 
 data_loader = DataLoader()
 dense_retriever = DenseRetriever()
@@ -52,7 +53,22 @@ for _, row in tqdm(sample.iterrows(), total=len(sample), desc="Evaluating"):
     results.append(current_result)
 
 
-print(f"Mean NDCG@5: {np.mean(results) * 100:.2f}")
+print(f"Mean NDCG@5: {np.mean(results) * 100:.2f}")"""
+
+data_loader = DataLoader()
+
+dense_retriever = DenseRetriever()
+bm25_retriever = BM25Retriever(data_loader=data_loader)
+rrf = ReciprocalRankFusion(60)
+hybrid_retriever = HybridRetriever(bm25_retriever=bm25_retriever,
+                                   dense_retriever=dense_retriever,
+                                   rrf=rrf)
+
+query_improvement = QueryImprovementComponent(data_loader=data_loader,
+                                              model_name="openai/gpt-oss-120b",
+                                              hybrid_retriever=hybrid_retriever,)
+
+query_improvement.multi_query_retrival("Wie geht es dir ?")
 
 
 

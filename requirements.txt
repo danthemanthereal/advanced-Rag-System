@@ -8,3 +8,4 @@ chromadb==0.5.23
 transformers==4.41.1
 tokenizers==0.19.1
 onnxruntime==1.17.3
+python-dotenv==1.2.2

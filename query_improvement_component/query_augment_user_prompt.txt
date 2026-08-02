@@ -1,0 +1,6 @@
+Create 5 alternative search queries for the following user query.
+
+User query:
+{query}
+
+Return only the JSON object.

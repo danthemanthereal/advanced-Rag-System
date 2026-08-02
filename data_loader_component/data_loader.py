@@ -23,3 +23,6 @@ class DataLoader:
         corpus = self.get_data_as_pd(data_file_path)
         corpus =corpus["text"].tolist()
         return [corpus[int(id)] for id in ids if int(id) < len(corpus)]
+
+    def load_prompt(self, prompt_path: Path)-> str:
+        return prompt_path.read_text(encoding="utf-8")
