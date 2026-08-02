@@ -12,6 +12,7 @@ class BM25Retriever:
                 / "indexes"
                 / "bm25"
         )
+        self.retriever = bm25s.BM25()
 
 
     def create_index(self, data_file_path: Path):
@@ -22,15 +23,25 @@ class BM25Retriever:
             stopwords="en"
         )
 
-        retriever = bm25s.BM25()
-        retriever.index(tokens)
+        self.retriever.index(tokens)
 
-        self.save_index(retriever)
+        self.save_index()
 
-    def save_index(self, retriever):
+    def save_index(self):
         self.index_dir.mkdir(
             parents=True,
             exist_ok=True
         )
 
-        retriever.save(str(self.index_dir))
+        self.retriever.save(str(self.index_dir))
+
+    def search_bm25(self, query: str, k: int = 10) -> list[tuple[str, float]]:
+
+        query_tokens = bm25s.tokenize([query], stopwords="en")
+        indices, scores = self.retriever.retrieve(query_tokens, k=k)
+
+        doc_ids = self.data_loader.get_documents_ids()
+
+        return [
+            (doc_ids[i], float(scores[0][j])) for j, i in enumerate(indices[0].tolist())
+        ]
