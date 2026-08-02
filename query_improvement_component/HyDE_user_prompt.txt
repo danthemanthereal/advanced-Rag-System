@@ -1,0 +1,6 @@
+Generate a hypothetical answer document for the following question.
+
+Question:
+{query}
+
+Return only a JSON object with the field "possible_answer".
