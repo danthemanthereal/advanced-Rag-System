@@ -43,7 +43,7 @@ for _, row in tqdm(sample.iterrows(), total=len(sample), desc="Evaluating"):
     query_text = row["text"]
     relevant = qrels[query_id]
 
-    hybrid_rev = hybrid_retriever.get_top_k_hybrid_retrieval(query_text, 10)
+    hybrid_rev = hybrid_retriever.get_top_k_hybrid_retrieval(query_text, 20)
     ids = [str(id) for id, _ in hybrid_rev]
     res = reranker.rerank(query_text, ids, 5)
 
