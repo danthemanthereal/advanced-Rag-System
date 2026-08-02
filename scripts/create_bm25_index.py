@@ -1,5 +1,5 @@
 from data_loader_component.data_loader import DataLoader
-from retrieval.bm25retriever import BM25Retriever
+from retrieval.bm25_retriever import BM25Retriever
 from pathlib import Path
 
 dat_loader = DataLoader()

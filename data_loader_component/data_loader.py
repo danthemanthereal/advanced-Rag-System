@@ -13,8 +13,8 @@ class DataLoader:
 
     def get_texts(self, data_file_path: Path) -> list[str]:
         corpus = self.get_data_as_pd(data_file_path)
-        return corpus["text"].tolist()
+        return corpus["text"].tolist()[:50]
 
     def get_documents_ids(self, data_file_path: Path = Path(__file__).parents[1] / "data" / "corpus.parquet") -> list[str]:
         documents = self.get_data_as_pd(data_file_path)
-        return documents["_id"].tolist()
+        return documents["_id"].tolist()[:50]

@@ -1,3 +1,10 @@
 bm25s==0.3.10
-datasets==5.0.1
-
+datasets==2.20.0
+huggingface-hub==0.24.6
+numpy==1.26.4
+sentence-transformers==3.0.1
+chroma-hnswlib==0.7.6
+chromadb==0.5.23
+transformers==4.41.1
+tokenizers==0.19.1
+onnxruntime==1.17.3
