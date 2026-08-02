@@ -1,5 +1,8 @@
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
+from langchain_experimental.text_splitter import SemanticChunker
+from langchain_huggingface import HuggingFaceEmbeddings
+from scripts.create_vector_db_index import embeddings
 
 
 class ChunkingComponent:
@@ -23,3 +26,21 @@ class ChunkingComponent:
         )
 
         return splitter.split_documents(documents)
+
+    def semantic_chunking(self, document_content):
+
+        embeddings = HuggingFaceEmbeddings(
+            model_name="sentence-transformers/all-MiniLM-L6-v2"
+        )
+
+        text_splitter = SemanticChunker(
+            embeddings=embeddings,
+            breakpoint_threshold_type="percentile"
+        )
+
+        documents = text_splitter.create_documents(
+            [document_content]
+        )
+
+        for doc in documents:
+            print(doc.page_content)
