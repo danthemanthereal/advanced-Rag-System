@@ -3,7 +3,7 @@ from pathlib import Path
 from data_loader_component.data_loader import DataLoader
 
 
-class BM25:
+class BM25Retriever:
 
     def __init__(self, data_loader: DataLoader):
         self.data_loader = data_loader
@@ -14,7 +14,7 @@ class BM25:
         )
 
 
-    def create_index(self, data_file_path):
+    def create_index(self, data_file_path: Path):
         documents = self.data_loader.get_texts(data_file_path)
 
         tokens = bm25s.tokenize(
