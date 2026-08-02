@@ -43,7 +43,8 @@ class DenseRetriever:
         )
 
         collection = client.get_or_create_collection(
-            name="vector_db"
+            name="vector_db",
+            metadata={"hnsw:space": "cosine"}
         )
 
         collection.add(
@@ -55,6 +56,38 @@ class DenseRetriever:
             ],
         )
 
+    def get_top_k_dense_results(self, query: str, top_k: int=10):
+
+        client = chromadb.PersistentClient(path=str(self.vector_db_path))
+
+        collection = client.get_or_create_collection(
+            name="vector_db"
+        )
+        embedded_question = self.embedding_model.encode(query, normalize_embeddings=True)
+        results = collection.query(
+            query_embeddings=[embedded_question.tolist()],
+            n_results=5,
+            include=[
+                "distances"
+            ]
+        )
+
+        ids = results["ids"][0]
+        distances = results["distances"][0]
+
+        top_k_results = []
+
+        for doc_id, distance in zip(ids, distances):
+            cosine_similarity = 1 - distance
+
+            top_k_results.append(
+                {
+                    "id": doc_id,
+                    "score": cosine_similarity
+                }
+            )
+
+        return top_k_results
 
 
 

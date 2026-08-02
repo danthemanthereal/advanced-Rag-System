@@ -43,5 +43,5 @@ class BM25Retriever:
         doc_ids = self.data_loader.get_documents_ids()
 
         return [
-            (doc_ids[i], float(scores[0][j])) for j, i in enumerate(indices[0].tolist())
+            (str(doc_ids[i]), float(scores[0][j])) for j, i in enumerate(indices[0].tolist())
         ]

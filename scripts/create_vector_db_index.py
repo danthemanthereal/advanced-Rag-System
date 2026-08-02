@@ -5,8 +5,6 @@ from retrieval.dense_retriever import DenseRetriever
 
 embeddings = []
 
-batch_size = 256
-
 data_loader = DataLoader()
 
 doc_text = data_loader.get_texts( Path(__file__).parents[1] / "data" / "corpus.parquet")

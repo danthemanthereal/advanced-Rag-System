@@ -3,7 +3,10 @@ from data_loader_component.data_loader import DataLoader
 from pathlib import Path
 from tqdm import tqdm
 
-SEED = 42
+from retrieval.dense_retriever import DenseRetriever
+from scripts.create_vector_db_index import dense_retriever
+
+"""SEED = 42
 RERANK_SAMPLE_SIZE=10
 
 DATA_DIR = Path(__file__).resolve().parents[0] / "data"
@@ -24,7 +27,12 @@ results: dict[str, list[float]] = defaultdict(list)
 for _, row in tqdm(sample.iterrows(), total=len(sample), desc="Evaluating"):
     query_id = str(row["_id"])
     query_text = row["text"]
-    relevant = qrels[query_id]
+    relevant = qrels[query_id]"""
+
+
+dense_retriever = DenseRetriever()
+
+print(dense_retriever.get_top_k_dense_results("Wie geht es dir"))
 
 
 
