@@ -17,4 +17,4 @@ class DataLoader:
 
     def get_documents_ids(self, data_file_path: Path = Path(__file__).parents[1] / "data" / "corpus.parquet") -> list[str]:
         documents = self.get_data_as_pd(data_file_path)
-        return documents["_id"].tolist()[:50]
+        return documents["_id"].tolist()

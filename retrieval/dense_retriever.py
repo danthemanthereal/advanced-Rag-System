@@ -61,7 +61,8 @@ class DenseRetriever:
         client = chromadb.PersistentClient(path=str(self.vector_db_path))
 
         collection = client.get_or_create_collection(
-            name="vector_db"
+            name="vector_db",
+            metadata={"hnsw:space": "cosine"}
         )
         embedded_question = self.embedding_model.encode(query, normalize_embeddings=True)
         results = collection.query(

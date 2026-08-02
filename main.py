@@ -3,7 +3,10 @@ from data_loader_component.data_loader import DataLoader
 from pathlib import Path
 from tqdm import tqdm
 
+from reciprocal_rank_fusion.rrf import ReciprocalRankFusion
+from retrieval.bm25_retriever import BM25Retriever
 from retrieval.dense_retriever import DenseRetriever
+from retrieval.hybrid_retriever import HybridRetriever
 from scripts.create_vector_db_index import dense_retriever
 
 """SEED = 42
@@ -29,10 +32,16 @@ for _, row in tqdm(sample.iterrows(), total=len(sample), desc="Evaluating"):
     query_text = row["text"]
     relevant = qrels[query_id]"""
 
-
+data_loader = DataLoader()
 dense_retriever = DenseRetriever()
+bm25_retriever = BM25Retriever(data_loader=data_loader)
+rrf = ReciprocalRankFusion(60)
 
-print(dense_retriever.get_top_k_dense_results("Wie geht es dir"))
+hybrid_retriever = HybridRetriever(bm25_retriever=bm25_retriever,
+                                   dense_retriever=dense_retriever,
+                                   rrf=rrf)
+
+print(hybrid_retriever.get_top_k_hybrid_retrieval("wie geht es dir",10))
 
 
 

@@ -14,6 +14,14 @@ class BM25Retriever:
         )
         self.retriever = bm25s.BM25()
 
+        if self.index_dir.exists():
+            self.retriever = bm25s.BM25.load(
+                str(self.index_dir),
+                load_corpus=False
+            )
+        else:
+            self.retriever = bm25s.BM25()
+
 
     def create_index(self, data_file_path: Path):
         documents = self.data_loader.get_texts(data_file_path)
@@ -39,7 +47,6 @@ class BM25Retriever:
 
         query_tokens = bm25s.tokenize([query], stopwords="en")
         indices, scores = self.retriever.retrieve(query_tokens, k=k)
-
         doc_ids = self.data_loader.get_documents_ids()
 
         return [
